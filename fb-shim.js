@@ -51,7 +51,7 @@ if (!CFG || !CFG.apiKey) { done(); } else {
       };
     };
     const db = { collection: colRef, doc: docRef };
-    const initials = (user && (user.displayName || user.email || "Y")).trim()[0].toUpperCase();
+    const initials = String((user && (user.displayName || user.email)) || "Y").trim().charAt(0).toUpperCase() || "Y";
     const avatar = "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="#1a6fa0"/><text x="32" y="41" font-family="Arial" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">${initials}</text></svg>`);
     const me = { id: user ? user.uid : null, name: user ? (user.displayName || user.email || "") : "", email: user ? user.email : null, avatarUrl: avatar, color: "#1a6fa0", isOwner: isAdmin, canEdit: isAdmin };
     const userNs = { canEdit: async () => isAdmin, isOwner: async () => isAdmin, can: async () => isAdmin, id: async () => me.id, me: async () => me, profiles: async () => ({}) };
